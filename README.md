@@ -1,10 +1,3 @@
 # -참조용 url 정리-
 
-
-스프링부트 프로젝트용
-1. gradle 환경변수 편집용
-https://nazzang19.tistory.com/128#google_vignette
-
-gradle 설치 링크
-https://gradle.org/install/
-
+공부할 때 참조하는 url / 검색한 정보들 정리하기 위해 만든 디렉토리입니다.
