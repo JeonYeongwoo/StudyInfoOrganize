@@ -1,0 +1,201 @@
+Ultralytics (https://www.ultralytics.com/ko/glossary/model-quantization):
+  모델 양자화 기술:  모델 최적화 기술. 신경망의 메모리사용량 및 계산 비용 줄여주는 기술으로
+  가중치와 활성화 함수를 높은 정밀도의 부동 소수점 숫자(예: 32비트 float 또는 FP32)에서
+  8비트 정수(INT8)와 같은 낮은 정밀도의 데이터 유형으로 변환하는 기술.
+  
+  모델의 크기가 크게 줄어들고 속도가 빨라짐 -> 모바일 폰이나 임베디드 시스템과 같이 리소스가 제한된 하드웨어에 배포 가능케 함.
+  
+  적용방법 :
+    사후 훈련 양자화(PTQ) - 이미 훈련된 모델을 더 낮은 정밀도 형식으로 변환
+  
+    Quantization-Aware Training (QAT) (양자화 인식 훈련) : 양자화 효과를 시뮬레이션하면서 모델을 훈련하거나 미세 조정
+  
+  관련 문서
+  https://docs.pytorch.org/docs/stable/quantization.html
+  https://ai.google.dev/edge/litert/models/post_training_quantization
+  
+    Ultralytics YOLO를 사용한 모델 내보내기
+    (https://docs.ultralytics.com/ko/modes/export/#how-do-i-export-a-yolo11-model-to-onnx-format)
+    YOLO11n 모델을 ONNX 또는 TensorRT와 같은 다른 형식으로 내보내는 방식.
+    사용예 : 
+    from ultralytics import YOLO
+    
+    # Load a model
+    model = YOLO("yolo11n.pt")  # load an official model
+    model = YOLO("path/to/best.pt")  # load a custom trained model
+    
+    # Export the model
+    model.export(format="onnx")
+    
+    관련 parameter 은 사이트에서 확인할 수 있으니 참고할 것.
+    Format    Argument
+    TensorRT	engine
+    PyTorch     -  
+    ONNX	    onnx
+
+ Django( https://wikidocs.net/91421 )
+ : 파이썬 웹 프레임워크
+
+
+AI 관련 정보 조사
+
+  PyTorch  : 
+  
+  import torch
+  from torch import nn
+  from torch import amp
+  from torch import onnx
+  from torch import optim
+  import torch.nn.functional as F
+  import torch.distributed as dist
+  import torch.multiprocessing as mp
+  
+  PyTorch의 필수 라이브러리
+  신경망 래퍼, 레이어, 백엔드, 손실 함수, 옵티마이저, 스케줄러, 모델 컴파일, 데이터 엔지니어링 등과 관련된 기본적인 모듈이 포함됨.
+  
+  관련 import 하는 것들 (https://wikidocs.net/57168)
+     torch : 텐서 등의 다양한 수학 함수가 포함된 메인 네임스페이스.
+  
+     torch.nn : 신경망을 구축하기 위한 다양한 데이터 구조나 레이어 등이 정의
+            RNN, LSTM과 같은 레이어, ReLU와 같은 활성화 함수, MSELoss와 같은 손실 함수들이 포함됨.
+  
+     torch.optim : 확률적 경사 하강법(Stochastic Gradient Descent, SGD)를 중심으로 한 파라미터 최적화 알고리즘이 구현
+  
+     torch.utils.data : 반복 연산을 실행할 때 사용하는 미니 배치용 유틸리티 함수가 포함
+     
+     torch.onnx : ONNX(Open Neural Network Exchange)의 포맷으로 모델을 익스포트(export)할 때 사용
+                  서로 다른 딥 러닝 프레임워크 간에 모델을 공유할 때 사용하는 포맷
+  
+  
+
+  ONNX(https://onnx.ai/)
+
+  
+  ONNX 형식으로 변환된 모델 배포하기 (https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/deploy-onnx-overview.html?context=wx&locale=ko#:
+  ~:text=ONNX%20%EB%94%A5%EB%9F%AC%EB%8B%9D%20%EB%AA%A8%EB%8D%B8%EC%9D%84%20%ED%91%9C%ED%98%84%ED%95%98%EA%B8%B0%20%EC%9C%84%ED%95%9C%20%EC%98%A4%ED%94%88%20%EC%86%8C%EC%8A%A4,
+  PyTorch%20%EB%98%90%EB%8A%94%20TensorFlow%20%EB%93%B1)%EC%97%90%EC%84%9C%20%EB%AA%A8%EB%8D%B8%EC%9D%84%20%ED%9B%88%EB%A0%A8%EC%8B%9C%ED%82%A8%20%EB%8B%A4%EC%9D%8C%2C)
+  ONNX 는 딥러닝 모델을 표현하기 위한 오픈 소스 형식인데, 이를 사용하여 
+  하나의 프레임워크( PyTorch 또는 TensorFlow 등)에서 모델을 훈련시킨 다음 다른 성능 특성을 가진 다른 환경에서 실행되도록 내보내는 것이 가능해집니다.
+  
+  이점 : 크로스 플랫폼 호환성, 성능 향상, 상호 운용성
+
+
+TensorRT (https://docs.ultralytics.com/ko/integrations/tensorrt/#tensorrt)
+
+고성능 환경에서 컴퓨터 비전 모델을 배포하려면 속도와 효율성을 극대화하는 형식
+(NVIDIA 하드웨어에서 빠르고 효율적인 추론을 위해 Ultralytics YOLO11 모델을 향상함)
+
+
+
+
+
+-------------------------------------
+gpt질의 
+
+1. Q: yolo 모델 을 engine format 으로 내보내는 경우는 어떤 경우야
+
+Answer:
+   .engine 포맷으로 내보내는가?
+
+다음과 같은 경우에 .engine 변환이 필요합니다:
+
+✅ 1) 실시간 처리 성능이 중요한 경우
+
+예: CCTV 스트림에서 YOLO로 PPE 감지, 화재 감지 등
+
+프레임당 지연(latency)을 최소화해야 하므로 TensorRT의 INT8/FP16 최적화 사용
+
+✅ 2) Jetson (Nano, Xavier, Orin) 환경
+
+Jetson은 TensorRT 엔진 추론이 기본이며, .pt 모델로는 속도가 느립니다.
+
+✅ 3) 서버 배포 시 GPU 고정 환경
+
+클라우드 서버나 inference 엔진을 운영할 때
+
+GPU가 항상 동일하다면, 미리 .engine으로 컴파일해둬야 로딩 속도와 추론 속도가 매우 빠릅니다.
+
+
+5. 주의할 점
+  항목	설명
+    GPU 의존성	.engine 파일은 생성 당시 GPU의 compute capability(예: 7.5, 8.6 등)에 종속됨
+    
+    재사용 불가	다른 GPU에서 실행 시 “incompatible device” 오류 발생 가능
+    
+    TensorRT 버전 의존	TensorRT 버전이 다르면 로드 실패 가능
+    
+    디버깅 어려움	.engine은 바이너리이므로 내부 구조 분석 불가
+
+
+    YOLO 모델을 .engine으로 내보내는 이유는 실시간 추론 속도 향상과
+    GPU 실행 최적화 때문입니다.
+    
+    다만 .engine 파일은 특정 GPU 및 TensorRT 버전에 종속적이므로
+    배포 환경이 고정된 경우에만 사용하는 것이 좋습니다.
+
+2. x.detach().cpu().numpy() 이런건 무슨 일 하는거야
+
+Answer:
+좋아요 👏 이 구문은 PyTorch에서 텐서를 넘파이 배열로 바꾸는 전형적인 패턴이에요.
+한 줄로 보이지만, 사실 3단계의 중요한 작업이 연달아 일어납니다.
+
+🔍 전체 구조
+x.detach().cpu().numpy()
+
+
+이건 다음의 의미를 순차적으로 수행합니다 👇
+
+1️⃣ .detach()
+2️⃣ .cpu()
+3️⃣ .numpy()
+
+🧠 1️⃣ .detach(): 그래디언트 추적 끊기
+
+PyTorch의 Tensor는 기본적으로 autograd(자동 미분) 시스템에 연결되어 있어요.
+즉, requires_grad=True인 텐서는 연산 그래프를 만들어 나중에 .backward()로 미분 계산이 가능합니다.
+
+하지만 우리는 종종 이 텐서의 값만 필요하고,
+연산 그래프나 gradient는 필요 없는 경우가 있습니다.
+그때 .detach()를 써요.
+
+# 예시
+x = torch.tensor([2.0, 3.0], requires_grad=True)
+y = x * 2                # y는 x의 연산 그래프에 연결됨
+z = y.detach()           # z는 y와 값은 같지만, 그래프에서 분리됨
+
+
+➡️ .detach()는 **“그래디언트 계산과는 상관없이 값만 복사한 텐서”**를 만들어줍니다.
+즉, 이후 연산은 autograd가 추적하지 않습니다.
+
+💻 2️⃣ .cpu(): GPU → CPU 메모리로 복사
+
+PyTorch 텐서는 GPU (cuda:0) 또는 CPU (cpu) 중 어디에든 있을 수 있습니다.
+그런데 NumPy는 GPU 메모리를 읽을 수 없어요.
+
+따라서 GPU에 있는 텐서를 NumPy로 바꾸려면 반드시 CPU로 옮겨야 합니다.
+
+x = x.cpu()
+
+
+➡️ GPU에 있던 데이터를 CPU 메모리로 복사합니다.
+
+📊 3️⃣ .numpy(): PyTorch Tensor → NumPy 배열
+
+마지막으로 .numpy()를 호출하면,
+PyTorch Tensor가 NumPy의 ndarray로 변환됩니다.
+
+arr = x.numpy()
+
+
+이제 arr은 완전히 일반적인 NumPy 배열이므로
+matplotlib, pandas, scikit-learn 등에 바로 쓸 수 있습니다.
+
+🧩 요약하면
+단계	기능	결과
+.detach()	autograd 그래프 끊기	gradient 계산 안함
+.cpu()	GPU → CPU 복사	NumPy로 변환 가능 상태
+.numpy()	Tensor → ndarray	NumPy 배열로 사용 가능
+
+x.detach().cpu().numpy() 는
+“연산 그래프에서 분리된 GPU 텐서를 CPU로 옮기고, NumPy 배열로 변환하는 과정”입니다.
+주로 시각화, 로깅, 디버깅, 또는 모델 출력값 저장 시에 자주 쓰입니다.
