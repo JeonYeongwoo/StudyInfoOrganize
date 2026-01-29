@@ -1,0 +1,120 @@
+인터넷 글 참고해서 공부한 AI 트레이닝 전반적인 흐름 (틀릴 수 있음)
+
+전반적인 flow는 
+
+1. df 라는 가상의 칼럼들을 가져와서 -> 임시적으로 뽑아내고
+시각화해서 확인
+
+2. 데이터 전처리 과정을 하는데 보통 하는 행동들은 다음과 같다?
+
+1) 데이터 들어오면 결측치 제거
+2) 이상치 조정
+3) 의미 없을 것 같은 칼럼들 drop
+4) 너무 다양한 선택지가 있는 경우 -> 범주를 몇 개 선언 후, 각 가짓수에다가 column 을 추가
+						 혹은 숫자를 맵핑 하는 등으로 정리
+5) 바이너리로 맵핑할 수 있다면 맵핑을 진행
+6) 텍스트 시퀀스 형태인 경우에는? -> 를 어떻게하는지 ******
+
+이렇게 전처리한 데이터들을 바탕으로 학습을 진행
+
+3. 학습 진행
+학습 데이터 어떻게 전달하는지? 모르겠음..
+
+1) 모델 정의 
+
+# 관련 라이브러리들 :
+import torch
+import torch.nn as nn 
+import torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+등등... 보면 된다.
+
+# 모델 정의할 때 사용되는 레이어들 정보는 --> torch.nn 라이브러리 보면 된다..?
+# 데이터 splitting, preprocessing 관련 라이브러리는 -->  sklearn 라이브러리 보면 된다..?
+
+--> 예측 모델에는 로지스틱 회귀 / 의사결정 트리 등등의 방법이 있는데.. 뭐가 있고 어떻게 사용하는지는 잘 모르겠음
+
+# x_train.shape[0], x_train.shape[1] 등등 에서 shape[0], shape[1]은 각각 행의 수(샘플 수) / 열의 수(feature 수) 이고
+#	shape[1] 으로 feature 수를 정의한 레이어들에 argument로 넘겨주면 -> 학습이 어캐든 된다..?
+
+
+2) for문을 이용해서 미리 선언해 둔 epoch 만큼 트레이닝을 진행한다..
+	각 epoch 에서는 training 을 먼저 진행하고
+
+
+
+3. 유틸 함수는 -> 자주 사용되는 함수들인데 이것들을 사용들인데, 보통
+1) 데이터셋/전처리 유틸 / 2) 토크나이징/인코딩 유틸 (Transformer 쓰면 사실상 필수) / 3) DataLoader / Collate 유틸 / 4) 학습 루프 보조 유틸 (이거 있으면 “학습 코드”가 깔끔해짐) / 5) 평가/에러분석 유틸 (성능 올릴 때 체감 큼) / 6) 추론 유틸
+
+--> 질문 : 어떤 목적으로 유틸 함수를 사용할건지?
+
+등등이 있다.
+
+
+
+
+
+
+2026-01-23
+볼 것 : ResNet / MLP / XgBoost / CatBoost / GeLU / sigmoid / leaky relu
+
+Catboost :  범주형 변수를 자동으로 수치형으로 변환하고 처리
+장점으로는 범주형 데이터의 자동 처리, 빠른 GPU 학습, 모델 및 특성 분석 도구, 오버피팅 방지를 위한 알고리즘, 대규모 데이터셋에 대한 확장성
+https://wikidocs.net/237827#google_vignette
+
+XGBoost : 효율적이고 확장 가능한 그라디언트 부스팅(Gradient Boosting) 알고리듬
+여러 개의 약한 학습기(주로 결정 트리)를 결합하여 강력한 예측 모델을 만드는 앙상블 방법
+
+activation function - 
+https://happy-obok.tistory.com/55
+sigmoid, leaky relu, tanh
+
+
+hydra 사용법:
+	1) config 폴더에 config.yaml -> 파라미터 설정
+	params:
+		epoch_count: 20
+		lr: 5e-5
+		batch_size : 128
+
+	2) main.py에서 import hydra --> main 있는 함수라고 생각..?
+	'''
+	main.py
+	'''
+	import hydra
+	#yaml 파일이 있는 위치 : conf, yaml이름 config
+	@hydra.main(config_path = "conf", config_name="config")
+	def main(cfg):# hydra를 사용하기 위해서 main function에 config 인자를 넣어줘야함 
+		~
+		~
+		return
+
+	3. config.py --> config.py라는 것을 생성
+
+
+
+회귀 문제 vs 분류 문제 주요 차이점
+	회귀 문제 (Regression)
+		목표: 숫자, 양, 수치 등을 예측.
+		출력값: 연속적인 수치 데이터.
+		예시: "내일 기온은 25.5도일 것이다", "이 집값은 5억 원이다".
+		알고리즘: 선형 회귀, 릿지, 라쏘 등.
+
+	분류 문제 (Classification)
+		목표: 데이터를 카테고리(그룹)로 분류.
+		출력값: 이산적/범주형 데이터 (예: 예/아니오, A/B/C).
+		예시: "이 메일은 스팸이다", "이 이미지는 고양이/개다".
+		알고리즘: 로지스틱 회귀(분류용), 결정 트리, SVM, 랜덤 포레스트 등
+
+데이터 전처리 - EDA
+https://wikidocs.net/251975
+
+
+Stratified Kfold
+https://dacon.io/codeshare/4546
+
+cfg 사용법
+https://chatgpt.com/g/g-p-69706ce494e88191b4a77e8ad8ee3f7d/c/6976d272-5338-8323-b373-4f3ec5f33d72
+
+timestamp 사용법
+https://chatgpt.com/g/g-p-69706ce494e88191b4a77e8ad8ee3f7d/c/6976e3a4-1e08-8322-9795-7a522f9dc517
