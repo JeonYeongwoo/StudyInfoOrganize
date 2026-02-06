@@ -1,0 +1,11 @@
+git Init : 파일을 git 에 등록 -> 변화를 감지하도록 파일을 등록
+
+git status : 파일의 변화를 표시
+
+변화된 파일들은 git add 하여 등록
+git add .
+git commit -m "first commit"
+
+
+깃 푸시
+git push -u origin [push할 branch 이름]
